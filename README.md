@@ -5,6 +5,10 @@
 
 Useful generic types, methods & functions.
 
+## :art: Contribution
+
+Contribution guidelines listed [here](docs/CONTRIBUTING.md).
+
 ## :closed_lock_with_key: License
 
 Aki is distributed under [MIT licence](LICENSE).

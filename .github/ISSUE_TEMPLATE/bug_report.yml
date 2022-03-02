@@ -1,5 +1,5 @@
 name: "Bug Report"
-title: ":space_invader:"
+title: "👾"
 description: "Report a bug and help improve this project"
 labels:
   - bug
@@ -13,26 +13,26 @@ body:
         Please try to describe your issue as well as you can, and it will be fixed faster.
   - type: input
     attributes:
-      label: ":speech_balloon: Aki version"
+      label: "💬 Aki version"
       description: "Version of Aki that you use"
       placeholder: "v0.1.2 or commit hash"
     validations:
       required: true
   - type: textarea
     attributes:
-      label: ":space_invader: Issue description"
+      label: "👾 Issue description"
       description: "What happened?"
       placeholder: "When called ... happens ..."
     validations:
       required: true
   - type: textarea
     attributes:
-      label: ":zap: Expected behavior"
+      label: "⚡️ Expected behavior"
       description: "What was expected?"
       placeholder: "It should be ..."
   - type: textarea
     attributes:
-      label: ":monocle_face: Code example"
+      label: "🧐 Code example"
       description: "What code was used to reproduce the issue?"
       placeholder: "Cool code that unfortunately doesn't work properly ..."
       render: Go

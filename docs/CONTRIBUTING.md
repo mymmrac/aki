@@ -99,9 +99,9 @@ Bad:
 
 Good:
 
-- `:space_invader: Fixed function X`
-- `:white_check_mark: Added unit tests for X`
-- `:hammer_and_wrench: Moved X from Y to Z`
+- `👾 Fixed function X`
+- `✅ Added unit tests for X`
+- `🛠 Moved X from Y to Z`
 
 ### Code style
 
