@@ -1,0 +1,42 @@
+name: "Bug Report"
+title: ":space_invader:"
+description: "Report a bug and help improve this project"
+labels:
+  - bug
+assignees:
+  - mymmrac
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # Hello stranger :wave:
+        Please try to describe your issue as well as you can, and it will be fixed faster.
+  - type: input
+    attributes:
+      label: ":speech_balloon: Aki version"
+      description: "Version of Aki that you use"
+      placeholder: "v0.1.2 or commit hash"
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: ":space_invader: Issue description"
+      description: "What happened?"
+      placeholder: "When called ... happens ..."
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: ":zap: Expected behavior"
+      description: "What was expected?"
+      placeholder: "It should be ..."
+  - type: textarea
+    attributes:
+      label: ":monocle_face: Code example"
+      description: "What code was used to reproduce the issue?"
+      placeholder: "Cool code that unfortunately doesn't work properly ..."
+      render: Go
+  - type: markdown
+    attributes:
+      value: |
+        ## Thank you for contributing to the project :slightly_smiling_face:
