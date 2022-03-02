@@ -12,4 +12,16 @@ lint: ## Run golangci-lint
 lint-install: ## Install golangci-lint
 	go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.44.2
 
-.PHONY: help lint lint-install
+test: ## Run tests
+	go test -coverprofile cover.out \
+	$(shell go list ./...)
+
+cover: test ## Run tests & show coverage
+	go tool cover -func cover.out
+
+race: ## Run tests with race flag
+	go test -race -count=1 ./...
+
+pre-commit: test lint ## Run tests and linter
+
+.PHONY: help lint lint-install test cover race pre-commit
