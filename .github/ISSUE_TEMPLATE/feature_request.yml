@@ -2,7 +2,7 @@ name: "Feature Request"
 title: "⭐️"
 description: "Request new feature and help improve this project"
 labels:
-  - enhancement
+  - ":fire: Enhancement"
 assignees:
   - mymmrac
 body:
