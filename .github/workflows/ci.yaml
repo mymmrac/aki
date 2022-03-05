@@ -9,26 +9,27 @@ on:
       - main
 
 jobs:
-  lint:
-    name: Linter
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Set up Go
-        uses: actions/setup-go@v2
-        with:
-          go-version: 1.18.0-rc1
-          stable: false
-
-      - name: Gofmt check
-        run: diff -u <(echo -n) <(gofmt -d .)
-
-      - name: Golangci Lint
-        uses: golangci/golangci-lint-action@v2
-        with:
-          version: v1.44.2
+#  TODO: Enable once works properly
+#  lint:
+#    name: Linter
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v2
+#
+#      - name: Set up Go
+#        uses: actions/setup-go@v2
+#        with:
+#          go-version: 1.18.0-rc1
+#          stable: false
+#
+#      - name: Gofmt check
+#        run: diff -u <(echo -n) <(gofmt -d .)
+#
+#      - name: Golangci Lint
+#        uses: golangci/golangci-lint-action@v2
+#        with:
+#          version: v1.44.2
 
   test-sonar-cloud:
     name: Tests & SonarCloud
