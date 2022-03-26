@@ -118,6 +118,8 @@ linters-settings:
     statements: 40
   gci: # Gci control golang package import order and make it always deterministic.
     sections:
+      - standard
+      - default
       - prefix(github.com/mymmrac/aki)
   exhaustive: # check exhaustiveness of enum switch statements
     # Presence of "default" case in switch statements satisfies exhaustiveness,
