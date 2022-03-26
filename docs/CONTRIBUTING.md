@@ -85,7 +85,7 @@ Explanation:
 - :page_facing_up: `:page_facing_up:` Changes in configs
 - :hammer_and_wrench: `:hammer_and_wrench:` Refactoring or reengineering
 - :white_check_mark: `:white_check_mark:` Adding or fixing tests
-- :envelope_with_arrow: `:envelope_with_arrow:` Updating dependencies
+- :arrow_up:  `:arrow_up:` Updating dependencies
 - :umbrella: `:umbrella:` Fixing CI checks
 - :jigsaw: `:jigsaw:` Tiny change or fix
 
