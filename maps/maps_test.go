@@ -3,41 +3,40 @@ package maps
 import (
 	"testing"
 
+	"github.com/mymmrac/aki/types"
 	"github.com/stretchr/testify/assert"
-
-	"github.com/mymmrac/aki"
 )
 
 func TestToM(t *testing.T) {
 	m1 := map[int]float64{1: 2}
-	m2 := M[int, float64]{3: 4}
+	m2 := Map[int, float64]{3: 4}
 	var m3 map[int]float64
-	var m4 M[int, float64]
+	var m4 Map[int, float64]
 
 	t.Run("map", func(t *testing.T) {
-		assert.Equal(t, M[int, float64](m1), ToM(m1))
+		assert.Equal(t, Map[int, float64](m1), ToMap(m1))
 	})
 
 	t.Run("m_map", func(t *testing.T) {
-		assert.Equal(t, m2, ToM(m2))
+		assert.Equal(t, m2, ToMap(m2))
 	})
 
 	t.Run("nil", func(t *testing.T) {
-		assert.Equal(t, m4, ToM(m3))
+		assert.Equal(t, m4, ToMap(m3))
 	})
 }
 
 var mapTestCases = []struct {
 	name                   string
-	m                      M[int, float64]
+	m                      Map[int, float64]
 	keys                   []int
 	values                 []float64
 	filterPredicate        Predicate[int, float64]
-	filteredMap            M[int, float64]
+	filteredMap            Map[int, float64]
 	filterKeyPredicate     PredicateByKey[int]
-	filteredKeyMap         M[int, float64]
+	filteredKeyMap         Map[int, float64]
 	filteredValuePredicate PredicateByValue[float64]
-	filteredValueMap       M[int, float64]
+	filteredValueMap       Map[int, float64]
 	entries                []Entry[int, float64]
 }{
 	{
@@ -68,7 +67,7 @@ var mapTestCases = []struct {
 	},
 	{
 		name:                   "one_value",
-		m:                      M[int, float64]{1: 2},
+		m:                      Map[int, float64]{1: 2},
 		keys:                   []int{1},
 		values:                 []float64{2},
 		filterPredicate:        func(_ int, _ float64) bool { return false },
@@ -83,7 +82,7 @@ var mapTestCases = []struct {
 	},
 	{
 		name:                   "multiple_value",
-		m:                      M[int, float64]{1: 2, 3: 4, 5: 6, 7: 8},
+		m:                      Map[int, float64]{1: 2, 3: 4, 5: 6, 7: 8},
 		keys:                   []int{1, 3, 5, 7},
 		values:                 []float64{2, 4, 6, 8},
 		filterPredicate:        func(key int, value float64) bool { return key == 1 || value == 4 },
@@ -230,11 +229,11 @@ func TestEntries(t *testing.T) {
 func TestM_FillEntries(t *testing.T) {
 	for _, tt := range mapTestCases {
 		t.Run(tt.name, func(t *testing.T) {
-			m := M[int, float64]{}
+			m := Map[int, float64]{}
 			m.FillEntries(tt.entries)
 
 			if tt.m == nil {
-				assert.Equal(t, M[int, float64]{}, m)
+				assert.Equal(t, Map[int, float64]{}, m)
 				return
 			}
 			assert.Equal(t, m, tt.m)
@@ -245,11 +244,11 @@ func TestM_FillEntries(t *testing.T) {
 func TestFillEntries(t *testing.T) {
 	for _, tt := range mapTestCases {
 		t.Run(tt.name, func(t *testing.T) {
-			m := M[int, float64]{}
+			m := Map[int, float64]{}
 			FillEntries(m, tt.entries)
 
 			if tt.m == nil {
-				assert.Equal(t, M[int, float64]{}, m)
+				assert.Equal(t, Map[int, float64]{}, m)
 				return
 			}
 			assert.Equal(t, m, tt.m)
@@ -260,11 +259,11 @@ func TestFillEntries(t *testing.T) {
 func TestM_FillEntry(t *testing.T) {
 	for _, tt := range mapTestCases {
 		t.Run(tt.name, func(t *testing.T) {
-			m := M[int, float64]{}
+			m := Map[int, float64]{}
 			m.FillEntry(tt.entries...)
 
 			if tt.m == nil {
-				assert.Equal(t, M[int, float64]{}, m)
+				assert.Equal(t, Map[int, float64]{}, m)
 				return
 			}
 
@@ -276,11 +275,11 @@ func TestM_FillEntry(t *testing.T) {
 func TestFillEntry(t *testing.T) {
 	for _, tt := range mapTestCases {
 		t.Run(tt.name, func(t *testing.T) {
-			m := M[int, float64]{}
+			m := Map[int, float64]{}
 			FillEntry(m, tt.entries...)
 
 			if tt.m == nil {
-				assert.Equal(t, M[int, float64]{}, m)
+				assert.Equal(t, Map[int, float64]{}, m)
 				return
 			}
 
@@ -295,7 +294,7 @@ func TestFromEntries(t *testing.T) {
 			m := FromEntries(tt.entries)
 
 			if tt.m == nil {
-				assert.Equal(t, M[int, float64]{}, m)
+				assert.Equal(t, Map[int, float64]{}, m)
 				return
 			}
 
@@ -310,7 +309,7 @@ func TestFromEntry(t *testing.T) {
 			m := FromEntry(tt.entries...)
 
 			if tt.m == nil {
-				assert.Equal(t, M[int, float64]{}, m)
+				assert.Equal(t, Map[int, float64]{}, m)
 				return
 			}
 
@@ -337,10 +336,10 @@ func TestCopy(t *testing.T) {
 
 var twoMapsTestCases = []struct {
 	name      string
-	this      M[int, float64]
-	other     M[int, float64]
-	merge     M[int, float64]
-	mergeLeft M[int, float64]
+	this      Map[int, float64]
+	other     Map[int, float64]
+	merge     Map[int, float64]
+	mergeLeft Map[int, float64]
 }{
 	{
 		name:      "nil-nil",
@@ -352,58 +351,58 @@ var twoMapsTestCases = []struct {
 	{
 		name:      "nil-empty",
 		this:      nil,
-		other:     M[int, float64]{},
+		other:     Map[int, float64]{},
 		merge:     nil,
 		mergeLeft: nil,
 	},
 	{
 		name:      "empty-nil",
-		this:      M[int, float64]{},
+		this:      Map[int, float64]{},
 		other:     nil,
-		merge:     M[int, float64]{},
-		mergeLeft: M[int, float64]{},
+		merge:     Map[int, float64]{},
+		mergeLeft: Map[int, float64]{},
 	},
 	{
 		name:      "empty-empty",
-		this:      M[int, float64]{},
-		other:     M[int, float64]{},
-		merge:     M[int, float64]{},
-		mergeLeft: M[int, float64]{},
+		this:      Map[int, float64]{},
+		other:     Map[int, float64]{},
+		merge:     Map[int, float64]{},
+		mergeLeft: Map[int, float64]{},
 	},
 	{
 		name:      "one-nil",
-		this:      M[int, float64]{1: 2},
+		this:      Map[int, float64]{1: 2},
 		other:     nil,
-		merge:     M[int, float64]{1: 2},
-		mergeLeft: M[int, float64]{1: 2},
+		merge:     Map[int, float64]{1: 2},
+		mergeLeft: Map[int, float64]{1: 2},
 	},
 	{
 		name:      "nil-one",
 		this:      nil,
-		other:     M[int, float64]{1: 2},
-		merge:     M[int, float64]{1: 2},
-		mergeLeft: M[int, float64]{1: 2},
+		other:     Map[int, float64]{1: 2},
+		merge:     Map[int, float64]{1: 2},
+		mergeLeft: Map[int, float64]{1: 2},
 	},
 	{
 		name:      "same-same",
-		this:      M[int, float64]{1: 2},
-		other:     M[int, float64]{1: 2},
-		merge:     M[int, float64]{1: 2},
-		mergeLeft: M[int, float64]{1: 2},
+		this:      Map[int, float64]{1: 2},
+		other:     Map[int, float64]{1: 2},
+		merge:     Map[int, float64]{1: 2},
+		mergeLeft: Map[int, float64]{1: 2},
 	},
 	{
 		name:      "diff",
-		this:      M[int, float64]{1: 2},
-		other:     M[int, float64]{3: 4},
-		merge:     M[int, float64]{1: 2, 3: 4},
-		mergeLeft: M[int, float64]{1: 2, 3: 4},
+		this:      Map[int, float64]{1: 2},
+		other:     Map[int, float64]{3: 4},
+		merge:     Map[int, float64]{1: 2, 3: 4},
+		mergeLeft: Map[int, float64]{1: 2, 3: 4},
 	},
 	{
 		name:      "diff-with-same",
-		this:      M[int, float64]{1: 2},
-		other:     M[int, float64]{1: 5, 3: 4},
-		merge:     M[int, float64]{1: 5, 3: 4},
-		mergeLeft: M[int, float64]{1: 2, 3: 4},
+		this:      Map[int, float64]{1: 2},
+		other:     Map[int, float64]{1: 5, 3: 4},
+		merge:     Map[int, float64]{1: 5, 3: 4},
+		mergeLeft: Map[int, float64]{1: 2, 3: 4},
 	},
 }
 
@@ -433,25 +432,25 @@ func TestNewEntry(t *testing.T) {
 
 type cloneableFloat float64
 
-func (c cloneableFloat) Clone() aki.Cloneable[cloneableFloat] {
+func (c cloneableFloat) Clone() types.Cloneable[cloneableFloat] {
 	return c
 }
 
 func TestToMCloneable(t *testing.T) {
 	m1 := map[int]cloneableFloat{1: 2}
-	m2 := MCloneable[int, cloneableFloat, cloneableFloat]{3: cloneableFloat(4)}
+	m2 := CloneableMap[int, cloneableFloat, cloneableFloat]{3: cloneableFloat(4)}
 	var m3 map[int]cloneableFloat
-	var m4 MCloneable[int, cloneableFloat, cloneableFloat]
+	var m4 CloneableMap[int, cloneableFloat, cloneableFloat]
 
 	t.Run("map", func(t *testing.T) {
-		assert.Equal(t, MCloneable[int, cloneableFloat, cloneableFloat](m1), ToMCloneable[int, cloneableFloat](m1))
+		assert.Equal(t, CloneableMap[int, cloneableFloat, cloneableFloat](m1), ToCloneableMap[int, cloneableFloat](m1))
 	})
 
 	t.Run("m_map", func(t *testing.T) {
-		assert.Equal(t, m2, ToMCloneable[int, cloneableFloat](m2))
+		assert.Equal(t, m2, ToCloneableMap[int, cloneableFloat](m2))
 	})
 
 	t.Run("nil", func(t *testing.T) {
-		assert.Equal(t, m4, ToMCloneable[int, cloneableFloat](m3))
+		assert.Equal(t, m4, ToCloneableMap[int, cloneableFloat](m3))
 	})
 }

@@ -3,19 +3,8 @@ Package maps provides useful generic types, methods & functions for maps.
 */
 package maps
 
-import "github.com/mymmrac/aki"
-
-// M represents generic map with useful methods
-type M[K comparable, V any] map[K]V
-
-func ToM[K comparable, V any](m map[K]V) M[K, V] {
-	return m
-}
-
-// ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
-
 // Values returns values of this map with no defined order
-func (m M[K, V]) Values() []V {
+func (m Map[K, V]) Values() []V {
 	values := make([]V, 0, len(m))
 	for _, v := range m {
 		values = append(values, v)
@@ -24,14 +13,14 @@ func (m M[K, V]) Values() []V {
 }
 
 // Values returns values of specified map with no defined order
-func Values[K comparable, V any](m M[K, V]) []V {
+func Values[K comparable, V any](m Map[K, V]) []V {
 	return m.Values()
 }
 
 // ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
 
 // Keys returns keys of this map with no defined order
-func (m M[K, V]) Keys() []K {
+func (m Map[K, V]) Keys() []K {
 	keys := make([]K, 0, len(m))
 	for k := range m {
 		keys = append(keys, k)
@@ -40,30 +29,19 @@ func (m M[K, V]) Keys() []K {
 }
 
 // Keys returns keys of specified map with no defined order
-func Keys[K comparable, V any](m M[K, V]) []K {
+func Keys[K comparable, V any](m Map[K, V]) []K {
 	return m.Keys()
 }
 
 // ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
 
-// Predicate defines map predicate
-type Predicate[K comparable, V any] func(key K, values V) bool
-
-// PredicateByKey defines map predicate by key
-type PredicateByKey[K comparable] func(key K) bool
-
-// PredicateByValue defines map predicate by value
-type PredicateByValue[V any] func(values V) bool
-
-// ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
-
 // Filter returns new map from this, filtered by key and value using provided predicate
-func (m M[K, V]) Filter(predicate Predicate[K, V]) M[K, V] {
+func (m Map[K, V]) Filter(predicate Predicate[K, V]) Map[K, V] {
 	if m == nil {
 		return nil
 	}
 
-	filtered := make(M[K, V])
+	filtered := make(Map[K, V])
 	for key, value := range m {
 		if predicate(key, value) {
 			filtered[key] = value
@@ -72,7 +50,7 @@ func (m M[K, V]) Filter(predicate Predicate[K, V]) M[K, V] {
 	return filtered
 }
 
-func (m M[K, V]) FilterSelf(predicate Predicate[K, V]) M[K, V] {
+func (m Map[K, V]) FilterSelf(predicate Predicate[K, V]) Map[K, V] {
 	for key, value := range m {
 		if !predicate(key, value) {
 			delete(m, key)
@@ -82,19 +60,19 @@ func (m M[K, V]) FilterSelf(predicate Predicate[K, V]) M[K, V] {
 }
 
 // Filter returns new map from specified, filtered by key and value using provided predicate
-func Filter[K comparable, V any](m M[K, V], predicate Predicate[K, V]) map[K]V {
+func Filter[K comparable, V any](m Map[K, V], predicate Predicate[K, V]) map[K]V {
 	return m.Filter(predicate)
 }
 
 // ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
 
 // FilterByKey returns new map from this, filtered by key using provided predicate
-func (m M[K, V]) FilterByKey(predicate PredicateByKey[K]) M[K, V] {
+func (m Map[K, V]) FilterByKey(predicate PredicateByKey[K]) Map[K, V] {
 	if m == nil {
 		return nil
 	}
 
-	filtered := make(M[K, V])
+	filtered := make(Map[K, V])
 	for key, value := range m {
 		if predicate(key) {
 			filtered[key] = value
@@ -103,7 +81,7 @@ func (m M[K, V]) FilterByKey(predicate PredicateByKey[K]) M[K, V] {
 	return filtered
 }
 
-func (m M[K, V]) FilterSelfByKey(predicate PredicateByKey[K]) M[K, V] {
+func (m Map[K, V]) FilterSelfByKey(predicate PredicateByKey[K]) Map[K, V] {
 	for key := range m {
 		if !predicate(key) {
 			delete(m, key)
@@ -113,19 +91,19 @@ func (m M[K, V]) FilterSelfByKey(predicate PredicateByKey[K]) M[K, V] {
 }
 
 // FilterByKey returns new map from specified, filtered by key using provided predicate
-func FilterByKey[K comparable, V any](m M[K, V], predicate PredicateByKey[K]) map[K]V {
+func FilterByKey[K comparable, V any](m Map[K, V], predicate PredicateByKey[K]) map[K]V {
 	return m.FilterByKey(predicate)
 }
 
 // ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
 
 // FilterByValue returns new map from this, filtered by value using provided predicate
-func (m M[K, V]) FilterByValue(predicate PredicateByValue[V]) M[K, V] {
+func (m Map[K, V]) FilterByValue(predicate PredicateByValue[V]) Map[K, V] {
 	if m == nil {
 		return nil
 	}
 
-	filtered := make(M[K, V])
+	filtered := make(Map[K, V])
 	for key, value := range m {
 		if predicate(value) {
 			filtered[key] = value
@@ -134,7 +112,7 @@ func (m M[K, V]) FilterByValue(predicate PredicateByValue[V]) M[K, V] {
 	return filtered
 }
 
-func (m M[K, V]) FilterSelfByValue(predicate PredicateByValue[V]) M[K, V] {
+func (m Map[K, V]) FilterSelfByValue(predicate PredicateByValue[V]) Map[K, V] {
 	for key, value := range m {
 		if !predicate(value) {
 			delete(m, key)
@@ -144,29 +122,14 @@ func (m M[K, V]) FilterSelfByValue(predicate PredicateByValue[V]) M[K, V] {
 }
 
 // FilterByValue returns new map from specified, filtered by value using provided predicate
-func FilterByValue[K comparable, V any](m M[K, V], predicate PredicateByValue[V]) map[K]V {
+func FilterByValue[K comparable, V any](m Map[K, V], predicate PredicateByValue[V]) map[K]V {
 	return m.FilterByValue(predicate)
 }
 
 // ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
 
-// Entry represents generic map entry
-type Entry[K comparable, V any] struct {
-	Key   K
-	Value V
-}
-
-func NewEntry[K comparable, V any](key K, value V) Entry[K, V] {
-	return Entry[K, V]{
-		Key:   key,
-		Value: value,
-	}
-}
-
-// ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
-
 // Entries returns entries of this map
-func (m M[K, V]) Entries() []Entry[K, V] {
+func (m Map[K, V]) Entries() []Entry[K, V] {
 	entries := make([]Entry[K, V], 0, len(m))
 	for key, value := range m {
 		entries = append(entries, Entry[K, V]{
@@ -178,14 +141,14 @@ func (m M[K, V]) Entries() []Entry[K, V] {
 }
 
 // Entries returns entries of specified map
-func Entries[K comparable, V any](m M[K, V]) []Entry[K, V] {
+func Entries[K comparable, V any](m Map[K, V]) []Entry[K, V] {
 	return m.Entries()
 }
 
 // ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
 
 // FillEntries fills entries into this map
-func (m M[K, V]) FillEntries(entries []Entry[K, V]) M[K, V] {
+func (m Map[K, V]) FillEntries(entries []Entry[K, V]) Map[K, V] {
 	for _, entry := range entries {
 		m[entry.Key] = entry.Value
 	}
@@ -193,45 +156,45 @@ func (m M[K, V]) FillEntries(entries []Entry[K, V]) M[K, V] {
 }
 
 // FillEntries fills entries into specified map
-func FillEntries[K comparable, V any](m M[K, V], entries []Entry[K, V]) {
+func FillEntries[K comparable, V any](m Map[K, V], entries []Entry[K, V]) {
 	m.FillEntries(entries)
 }
 
 // ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
 
 // FillEntry fills entries into this map
-func (m M[K, V]) FillEntry(entries ...Entry[K, V]) M[K, V] {
+func (m Map[K, V]) FillEntry(entries ...Entry[K, V]) Map[K, V] {
 	return m.FillEntries(entries)
 }
 
 // FillEntry fills entries into specified map
-func FillEntry[K comparable, V any](m M[K, V], entries ...Entry[K, V]) {
+func FillEntry[K comparable, V any](m Map[K, V], entries ...Entry[K, V]) {
 	m.FillEntries(entries)
 }
 
 // ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
 
 // FromEntries fills entries into specified map
-func FromEntries[K comparable, V any](entries []Entry[K, V]) M[K, V] {
-	m := make(M[K, V], len(entries))
+func FromEntries[K comparable, V any](entries []Entry[K, V]) Map[K, V] {
+	m := make(Map[K, V], len(entries))
 	m.FillEntries(entries)
 	return m
 }
 
 // FromEntry fills entries into specified map
-func FromEntry[K comparable, V any](entries ...Entry[K, V]) M[K, V] {
+func FromEntry[K comparable, V any](entries ...Entry[K, V]) Map[K, V] {
 	return FromEntries(entries)
 }
 
 // ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
 
 // Copy returns shallow copy of this map
-func (m M[K, V]) Copy() M[K, V] {
+func (m Map[K, V]) Copy() Map[K, V] {
 	if m == nil {
 		return nil
 	}
 
-	copyMap := make(M[K, V], len(m))
+	copyMap := make(Map[K, V], len(m))
 	for key, value := range m {
 		copyMap[key] = value
 	}
@@ -239,33 +202,13 @@ func (m M[K, V]) Copy() M[K, V] {
 }
 
 // Copy returns shallow copy of specified map
-func Copy[K comparable, V any](m M[K, V]) map[K]V {
+func Copy[K comparable, V any](m Map[K, V]) map[K]V {
 	return m.Copy()
 }
 
 // ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
 
-type MCloneable[K comparable, T any, V aki.Cloneable[T]] map[K]V
-
-func ToMCloneable[K comparable, T any, V aki.Cloneable[T]](m map[K]V) MCloneable[K, T, V] {
-	return m
-}
-
-func (m MCloneable[K, T, V]) Clone() MCloneable[K, T, V] {
-	if m == nil {
-		return nil
-	}
-
-	copyMap := make(MCloneable[K, T, V], len(m))
-	for key, value := range m {
-		copyMap[key] = value.Clone().(V)
-	}
-	return copyMap
-}
-
-// ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
-
-func (m M[K, V]) Merge(other M[K, V]) M[K, V] {
+func (m Map[K, V]) Merge(other Map[K, V]) Map[K, V] {
 	merged := m.Copy()
 	for key, value := range other {
 		merged[key] = value
@@ -274,7 +217,7 @@ func (m M[K, V]) Merge(other M[K, V]) M[K, V] {
 }
 
 // MergeSelf merges values from provided map into this
-func (m M[K, V]) MergeSelf(other M[K, V]) M[K, V] {
+func (m Map[K, V]) MergeSelf(other Map[K, V]) Map[K, V] {
 	for key, value := range other {
 		m[key] = value
 	}
@@ -282,13 +225,13 @@ func (m M[K, V]) MergeSelf(other M[K, V]) M[K, V] {
 }
 
 // Merge merges values from provided map into specified
-func Merge[K comparable, V any](this, other M[K, V]) M[K, V] {
+func Merge[K comparable, V any](this, other Map[K, V]) Map[K, V] {
 	return this.Merge(other)
 }
 
 // ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
 
-func (m M[K, V]) MergeLeft(other M[K, V]) M[K, V] {
+func (m Map[K, V]) MergeLeft(other Map[K, V]) Map[K, V] {
 	merged := m.Copy()
 	for key, value := range other {
 		if _, found := m[key]; found {
@@ -300,7 +243,7 @@ func (m M[K, V]) MergeLeft(other M[K, V]) M[K, V] {
 	return merged
 }
 
-func (m M[K, V]) MergeSelfLeft(other M[K, V]) M[K, V] {
+func (m Map[K, V]) MergeSelfLeft(other Map[K, V]) Map[K, V] {
 	for key, value := range other {
 		if _, found := m[key]; found {
 			continue
@@ -311,8 +254,17 @@ func (m M[K, V]) MergeSelfLeft(other M[K, V]) M[K, V] {
 	return m
 }
 
-func MergeLeft[K comparable, V any](this, other M[K, V]) M[K, V] {
+func MergeLeft[K comparable, V any](this, other Map[K, V]) Map[K, V] {
 	return this.MergeLeft(other)
 }
 
 // ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ==== ====
+
+func (m Map[K, V]) ContainsKey(key K) bool {
+	_, found := m[key]
+	return found
+}
+
+func ContainsKey[K comparable, V any](m Map[K, V], key K) bool {
+	return m.ContainsKey(key)
+}
