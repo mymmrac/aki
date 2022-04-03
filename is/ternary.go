@@ -1,4 +1,6 @@
-package aki
+package is
+
+import "github.com/mymmrac/aki/types"
 
 func If[T any](is bool, ifTrue, ifFalse T) T {
 	if is {
@@ -12,13 +14,11 @@ func IfTrue[T any](is bool, ifTrue T) T {
 		return ifTrue
 	}
 
-	var t T
-	return t
+	return types.Empty[T]()
 }
 
 func Or[T comparable](first, second T) T {
-	var empty T
-	if first != empty {
+	if first != types.Empty[T]() {
 		return first
 	}
 	return second
